@@ -1,6 +1,11 @@
 <template>
   <v-card class="mx-auto" max-width="400">
-    <v-img class="white--text align-end" height="200px" :src="event.imageUrl">
+    <v-img
+      class="white--text align-end grey darken-4"
+      height="200px"
+      :src="event.imageUrl"
+      transition="fade-transition"
+    >
       <v-card-title>{{ event.name }}</v-card-title>
     </v-img>
 
