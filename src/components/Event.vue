@@ -1,17 +1,17 @@
 <template>
-  <v-card class="mx-auto" max-width="400">
+  <v-card class="mx-auto" max-width="500">
     <v-img
       class="white--text align-end grey darken-4"
-      height="200px"
+      min-height="220px"
       :src="event.imageUrl"
       transition="fade-transition"
     >
       <v-card-title class="title">{{ event.name }}</v-card-title>
     </v-img>
 
-    <v-card-subtitle class="pb-0">{{
-      event.eventStart | moment("calendar")
-    }}</v-card-subtitle>
+    <v-card-subtitle class="pb-0">
+      {{ fromNow }}
+    </v-card-subtitle>
 
     <v-card-text class="text--primary">
       <p v-line-clamp:20="3" class="description">
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "Event",
   props: {
@@ -35,6 +37,24 @@ export default {
       type: Object,
       required: true
     }
+  },
+  data: () => ({
+    interval: null,
+    fromNow: null
+  }),
+  methods: {
+    timeFromNow() {
+      this.fromNow = moment(this.event.eventStart).fromNow();
+    }
+  },
+  mounted() {
+    this.timeFromNow();
+    this.interval = setInterval(() => {
+      this.timeFromNow();
+    }, 30000);
+  },
+  destroyed() {
+    clearInterval(this.interval);
   }
 };
 </script>
