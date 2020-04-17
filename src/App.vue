@@ -1,9 +1,27 @@
 <template>
   <v-app>
-    <v-app-bar app color="white">
+    <v-app-bar app>
       <v-spacer></v-spacer>
 
-      <v-icon>mdi-help-circle</v-icon>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn icon v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item @click="switchDark">
+            <v-list-item-icon>
+              <v-icon v-if="isDark">mdi-brightness-4</v-icon>
+              <v-icon v-else>mdi-brightness-7</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ isDark ? "Light Mode" : "Dark Mode" }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-content>
@@ -16,7 +34,17 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  computed: {
+    isDark() {
+      return this.$vuetify.theme.dark;
+    }
+  },
+  methods: {
+    switchDark() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    }
+  }
 };
 </script>
 
