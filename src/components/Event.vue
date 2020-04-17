@@ -6,7 +6,7 @@
       :src="event.imageUrl"
       transition="fade-transition"
     >
-      <v-card-title>{{ event.name }}</v-card-title>
+      <v-card-title class="title">{{ event.name }}</v-card-title>
     </v-img>
 
     <v-card-subtitle class="pb-0">{{
@@ -14,7 +14,9 @@
     }}</v-card-subtitle>
 
     <v-card-text class="text--primary">
-      <p v-line-clamp:20="2">{{ event.description }}</p>
+      <p v-line-clamp:20="3" class="description">
+        {{ event.description }}
+      </p>
     </v-card-text>
 
     <v-card-actions>
@@ -36,3 +38,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.description {
+  word-break: normal !important;
+}
+
+.title {
+  word-break: normal !important;
+}
+</style>
