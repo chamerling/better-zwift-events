@@ -14,11 +14,11 @@
     }}</v-card-subtitle>
 
     <v-card-text class="text--primary">
-      <div>Whitsunday Island, Whitsunday Islands</div>
+      <p v-line-clamp:20="2">{{ event.description }}</p>
     </v-card-text>
 
     <v-card-actions>
-      <v-btn color="orange" text>
+      <v-btn color="primary" text>
         Details
       </v-btn>
     </v-card-actions>
