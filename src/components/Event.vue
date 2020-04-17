@@ -9,7 +9,9 @@
       <v-card-title>{{ event.name }}</v-card-title>
     </v-img>
 
-    <v-card-subtitle class="pb-0">{{ event.eventStart }}</v-card-subtitle>
+    <v-card-subtitle class="pb-0">{{
+      event.eventStart | moment("calendar")
+    }}</v-card-subtitle>
 
     <v-card-text class="text--primary">
       <div>Whitsunday Island, Whitsunday Islands</div>
