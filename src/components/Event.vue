@@ -6,8 +6,16 @@
       :src="event.imageUrl"
       transition="fade-transition"
     >
+      <v-card-title class="title">
+        <span class="mr-2">{{ event.sport }}</span>
+        <div v-for="label in labels" :key="label" class="mr-1">
+          <Label :label="label"></Label>
+        </div>
+      </v-card-title>
     </v-img>
-    <v-card-title class="title">{{ event.name }}</v-card-title>
+    <v-card-title class="title">
+      {{ event.name }}
+    </v-card-title>
 
     <v-card-subtitle class="pb-0">
       {{ fromNow }}
@@ -37,6 +45,7 @@
 
 <script>
 import moment from "moment";
+import Label from "@/components/Label.vue";
 
 export default {
   name: "Event",
@@ -56,6 +65,13 @@ export default {
       this.fromNow = moment(this.event.eventStart).fromNow();
     }
   },
+  computed: {
+    labels() {
+      return this.event.eventSubgroups
+        ? this.event.eventSubgroups.map(subgroup => subgroup.subgroupLabel)
+        : [];
+    }
+  },
   mounted() {
     this.timeFromNow();
     this.interval = setInterval(() => {
@@ -64,6 +80,9 @@ export default {
   },
   destroyed() {
     clearInterval(this.interval);
+  },
+  components: {
+    Label
   }
 };
 </script>
