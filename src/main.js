@@ -2,7 +2,6 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import VueMoment from "vue-moment";
-import VueLineClamp from "vue-line-clamp";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
@@ -11,7 +10,6 @@ import vuetify from "./plugins/vuetify";
 
 Vue.use(VueAxios, axios);
 Vue.use(VueMoment);
-Vue.use(VueLineClamp);
 
 Vue.config.productionTip = false;
 
