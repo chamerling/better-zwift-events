@@ -35,7 +35,7 @@
     <v-expand-transition>
       <div v-show="show">
         <v-divider></v-divider>
-        <v-card-text class="text--primary">
+        <v-card-text class="text--primary description">
           {{ event.description }}
         </v-card-text>
       </div>
@@ -89,7 +89,7 @@ export default {
 
 <style scoped>
 .description {
-  word-break: normal !important;
+  white-space: pre-line;
 }
 
 .title {
