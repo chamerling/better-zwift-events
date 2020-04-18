@@ -6,24 +6,32 @@
       :src="event.imageUrl"
       transition="fade-transition"
     >
-      <v-card-title class="title">{{ event.name }}</v-card-title>
     </v-img>
+    <v-card-title class="title">{{ event.name }}</v-card-title>
 
     <v-card-subtitle class="pb-0">
       {{ fromNow }}
     </v-card-subtitle>
 
-    <v-card-text class="text--primary">
-      <p v-line-clamp:20="3" class="description">
-        {{ event.description }}
-      </p>
-    </v-card-text>
-
     <v-card-actions>
       <v-btn color="primary" text>
         Details
       </v-btn>
+      <v-spacer></v-spacer>
+
+      <v-btn icon @click="show = !show">
+        <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+      </v-btn>
     </v-card-actions>
+
+    <v-expand-transition>
+      <div v-show="show">
+        <v-divider></v-divider>
+        <v-card-text class="text--primary">
+          {{ event.description }}
+        </v-card-text>
+      </div>
+    </v-expand-transition>
   </v-card>
 </template>
 
@@ -39,6 +47,7 @@ export default {
     }
   },
   data: () => ({
+    show: false,
     interval: null,
     fromNow: null
   }),
