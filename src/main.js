@@ -1,6 +1,8 @@
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import linkify from "vue-linkify";
+
 import VueMoment from "vue-moment";
 import App from "./App.vue";
 import "./registerServiceWorker";
@@ -10,6 +12,7 @@ import vuetify from "./plugins/vuetify";
 
 Vue.use(VueAxios, axios);
 Vue.use(VueMoment);
+Vue.directive("linkified", linkify);
 
 Vue.config.productionTip = false;
 
