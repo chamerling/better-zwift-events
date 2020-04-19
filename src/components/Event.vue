@@ -36,7 +36,7 @@
       <div v-show="show">
         <v-divider></v-divider>
         <v-card-text class="text--primary description">
-          {{ event.description }}
+          <div v-html="event.description" v-linkified></div>
         </v-card-text>
       </div>
     </v-expand-transition>
