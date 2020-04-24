@@ -11,6 +11,7 @@
         </template>
 
         <v-list>
+          <!--
           <v-list-item @click="switchDark">
             <v-list-item-icon>
               <v-icon v-if="isDark">mdi-brightness-4</v-icon>
@@ -18,6 +19,15 @@
             </v-list-item-icon>
             <v-list-item-title>
               {{ isDark ? "Light Mode" : "Dark Mode" }}
+            </v-list-item-title>
+          </v-list-item>
+          -->
+          <v-list-item to="/about">
+            <v-list-item-icon>
+              <v-icon>mdi-help</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              About
             </v-list-item-title>
           </v-list-item>
         </v-list>
