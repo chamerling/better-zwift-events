@@ -39,6 +39,7 @@
         <router-view />
       </transition>
     </v-content>
+    <ScrollToTopFab />
   </v-app>
 </template>
 
@@ -54,6 +55,9 @@ export default {
     switchDark() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     }
+  },
+  components: {
+    ScrollToTopFab: () => import("@/components/ScrollToTopFab.vue")
   }
 };
 </script>
