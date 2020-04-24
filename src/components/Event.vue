@@ -7,7 +7,8 @@
       transition="fade-transition"
     >
       <v-card-title class="title">
-        <span class="mr-2">{{ event.sport }}</span>
+        <Sport :type="event.sport" class="mr-2" />
+        <v-spacer />
         <div v-for="label in labels" :key="label" class="mr-1">
           <Label :label="label"></Label>
         </div>
@@ -46,6 +47,7 @@
 <script>
 import moment from "moment";
 import Label from "@/components/Label.vue";
+import Sport from "@/components/Sport.vue";
 
 export default {
   name: "Event",
@@ -82,7 +84,8 @@ export default {
     clearInterval(this.interval);
   },
   components: {
-    Label
+    Label,
+    Sport
   }
 };
 </script>
