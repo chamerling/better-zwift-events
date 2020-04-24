@@ -1,0 +1,112 @@
+<template>
+  <div id="loader" class="d-flex flex-column justify-center align-center">
+    <div class="icons">
+      <v-icon id="bike" color="primary" size="80">mdi-bike</v-icon>
+      <v-icon id="run" color="primary" size="80">mdi-run</v-icon>
+    </div>
+    <h3 class="mt-4">
+      <span>{{ message }}</span>
+      <span class="ellipsis-anim">
+        <span>.</span><span>.</span><span>.</span>
+      </span>
+    </h3>
+  </div>
+</template>
+
+<script>
+const MESSAGES = ["Loading Events", "Zwift looks slow"];
+
+export default {
+  name: "Loader",
+  data: () => ({
+    idx: 0,
+    timeout: null
+  }),
+  computed: {
+    message() {
+      return MESSAGES[this.idx];
+    }
+  },
+  mounted() {
+    this.timeout = setTimeout(() => {
+      this.idx = 1;
+    }, 5000);
+  },
+  destroyed() {
+    clearTimeout(this.timeout);
+  }
+};
+</script>
+
+<style scoped>
+.icons i {
+  animation-name: fade;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  33% {
+    opacity: 1;
+  }
+  53% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#bike {
+  position: absolute;
+}
+
+#run {
+  animation-delay: -1s;
+}
+
+.ellipsis-anim span {
+  opacity: 0;
+  animation: ellipsis-dot 1s infinite;
+}
+
+.ellipsis-anim span:nth-child(1) {
+  animation-delay: 0s;
+}
+.ellipsis-anim span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.ellipsis-anim span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+@-webkit-keyframes ellipsis-dot {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ellipsis-dot {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+</style>
