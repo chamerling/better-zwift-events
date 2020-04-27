@@ -4,6 +4,9 @@ import VueAxios from "vue-axios";
 import linkify from "vue-linkify";
 import VueMoment from "vue-moment";
 
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
@@ -17,6 +20,9 @@ Vue.directive("linkified", linkify);
 Vue.config.productionTip = false;
 
 new Vue({
+  created() {
+    AOS.init();
+  },
   router,
   store,
   vuetify,
