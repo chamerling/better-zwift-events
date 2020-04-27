@@ -19,7 +19,7 @@
     </v-card-title>
 
     <v-card-subtitle class="pb-0">
-      {{ fromNow }}
+      {{ from }}
     </v-card-subtitle>
 
     <v-card-actions>
@@ -51,6 +51,10 @@ export default {
     event: {
       type: Object,
       required: true
+    },
+    now: {
+      type: Date,
+      required: true
     }
   },
   data: () => ({
@@ -58,26 +62,15 @@ export default {
     interval: null,
     fromNow: null
   }),
-  methods: {
-    timeFromNow() {
-      this.fromNow = moment(this.event.eventStart).fromNow();
-    }
-  },
   computed: {
     labels() {
       return this.event.eventSubgroups
         ? this.event.eventSubgroups.map(subgroup => subgroup.subgroupLabel)
         : [];
+    },
+    from() {
+      return moment(this.event.eventStart).from(this.now);
     }
-  },
-  mounted() {
-    this.timeFromNow();
-    this.interval = setInterval(() => {
-      this.timeFromNow();
-    }, 30000);
-  },
-  destroyed() {
-    clearInterval(this.interval);
   },
   components: {
     Label,
