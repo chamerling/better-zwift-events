@@ -4,6 +4,7 @@
       <div id="event" class="mb-4" v-for="event in events" :key="event.id">
         <Event
           :event="event"
+          :now="now"
           data-aos="fade"
           data-aos-easing="ease-in"
           data-aos-once="true"
@@ -33,16 +34,28 @@ import MessageEllipsis from "@/components/MessageEllipsis.vue";
 export default {
   name: "Home",
   data: () => ({
+    interval: null,
     loaded: false,
+    now: null,
     page: 0,
     events: []
   }),
+  created() {
+    this.now = new Date();
+  },
   mounted() {
+    this.interval = setInterval(() => {
+      this.now = new Date();
+    }, 30000);
+
     this.$store
       .dispatch("fetchEvents")
       .then(() => this.getFirstEvents())
       .then(() => (this.loaded = true))
       .catch(err => console.log(err));
+  },
+  destroyed() {
+    clearInterval(this.interval);
   },
   computed: {
     ...mapGetters({ getEvents: "getEvents" })
@@ -59,9 +72,9 @@ export default {
 
       if (events && events.length) {
         this.events.push(...events);
-        $state && $state.loaded();
+        $state.loaded();
       } else {
-        $state && $state.complete();
+        $state.complete();
       }
     }
   },
