@@ -14,26 +14,50 @@
 </template>
 
 <script>
-const MESSAGES = ["Loading Events", "Zwift looks slow"];
+import { of, from } from "rxjs";
+import { concatMap, delay } from "rxjs/operators";
+
+const INITIAL_MESSAGE = "Loading Events";
+const FINAL_MESSAGE = "Zwift looks slow, waiting a bit more";
+const MESSAGES = [
+  "Checking brakes",
+  "Tyres pressure",
+  "Putting helmet",
+  "Filling water",
+  "Cleaning sunglasses",
+  "Adjusting rear derailleur",
+  "Calibrating smart trainer",
+  "Bike Chain lubrication"
+];
 
 export default {
   name: "Loader",
   data: () => ({
-    idx: 0,
-    timeout: null
+    message: INITIAL_MESSAGE,
+    subscription: null
   }),
-  computed: {
-    message() {
-      return MESSAGES[this.idx];
+  methods: {
+    launch() {
+      const inputMessages = MESSAGES.sort(() => 0.5 - Math.random());
+
+      this.subscription = from(inputMessages)
+        .pipe(
+          concatMap(message =>
+            of(message).pipe(delay(600 + Math.random() * 600))
+          )
+        )
+        .subscribe(
+          message => (this.message = message),
+          err => console.log(err),
+          () => (this.message = FINAL_MESSAGE) // TODO: launch another type of message
+        );
     }
   },
   mounted() {
-    this.timeout = setTimeout(() => {
-      this.idx = 1;
-    }, 5000);
+    this.launch();
   },
   destroyed() {
-    clearTimeout(this.timeout);
+    this.subscription && this.subscription.unsubscribe();
   }
 };
 </script>
