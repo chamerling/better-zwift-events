@@ -2,13 +2,20 @@
   <v-container>
     <div id="events" v-if="loaded">
       <div id="event" class="mb-4" v-for="event in events" :key="event.id">
-        <Event :event="event" />
+        <Event
+          :event="event"
+          data-aos="fade"
+          data-aos-easing="ease-in"
+          data-aos-once="true"
+        />
       </div>
-      <infinite-loading @infinite="loadMore">
+      <infinite-loading @infinite="loadMore" :distance="200">
         <div slot="spinner">
           <MessageEllipsis message="Loading" />
         </div>
       </infinite-loading>
+      <!-- dirty hack to have aos and infinite list working -->
+      <div id="loaded"></div>
     </div>
     <div v-else id="loader" class="d-flex justify-center align-center">
       <Loader />
@@ -50,14 +57,12 @@ export default {
       const events = this.getEvents(this.page);
       this.page++;
 
-      setTimeout(() => {
-        if (events && events.length) {
-          this.events.push(...events);
-          $state && $state.loaded();
-        } else {
-          $state && $state.complete();
-        }
-      }, 600);
+      if (events && events.length) {
+        this.events.push(...events);
+        $state && $state.loaded();
+      } else {
+        $state && $state.complete();
+      }
     }
   },
   components: {
