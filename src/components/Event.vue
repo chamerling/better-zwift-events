@@ -23,13 +23,9 @@
     </v-card-subtitle>
 
     <v-card-actions>
-      <v-btn color="primary" text>
-        Details
-      </v-btn>
-      <v-spacer></v-spacer>
-
-      <v-btn icon @click="show = !show">
-        <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
+      <v-btn text color="primary" @click="show = !show">
+        <span>Details</span>
+        <v-icon left>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
       </v-btn>
     </v-card-actions>
 
