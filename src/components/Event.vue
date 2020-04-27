@@ -2,9 +2,9 @@
   <v-card class="mx-auto" max-width="500">
     <v-img
       class="white--text align-end grey darken-4"
-      min-height="220px"
       :src="event.imageUrl"
       transition="fade-transition"
+      contain
     >
       <v-card-title class="title">
         <Sport :type="event.sport" class="mr-2" />
