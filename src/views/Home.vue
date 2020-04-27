@@ -14,6 +14,9 @@
         <div slot="spinner">
           <MessageEllipsis message="Loading" />
         </div>
+        <div slot="no-more">
+          <span>No more events</span>
+        </div>
       </infinite-loading>
       <!-- dirty hack to have aos and infinite list working -->
       <div id="loaded"></div>
