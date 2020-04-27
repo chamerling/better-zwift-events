@@ -4,7 +4,7 @@ import { orderBy } from "lodash";
 
 Vue.use(Vuex);
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 50;
 
 const state = {
   events: {}
