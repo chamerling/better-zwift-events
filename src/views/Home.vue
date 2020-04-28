@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div id="events" v-if="loaded">
-      <div id="event" class="mb-4" v-for="event in events" :key="event.id">
+      <div id="event" class="mb-4" v-for="event in filteredEvents" :key="event.id">
         <Event
           :event="event"
           :now="now"
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { mapGetters } from "vuex";
 import InfiniteLoading from "vue-infinite-loading";
 import Event from "@/components/Event.vue";
@@ -49,7 +50,7 @@ export default {
   mounted() {
     this.interval = setInterval(() => {
       this.now = new Date();
-    }, 30000);
+    }, 60000);
 
     this.$store
       .dispatch("fetchEvents")
@@ -61,7 +62,17 @@ export default {
     clearInterval(this.interval);
   },
   computed: {
-    ...mapGetters({ getEvents: "getEvents" })
+    ...mapGetters({ getEvents: "getEvents" }),
+    filteredEvents() {
+      // Do not display old events (15 minutes ago)
+      return this.events.filter(event => {
+        return (
+          moment
+            .duration(moment(event.eventStart).diff(moment(this.now)))
+            .asMinutes() > -15
+        );
+      });
+    }
   },
   methods: {
     getFirstEvents() {
