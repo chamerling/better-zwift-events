@@ -1,7 +1,12 @@
 <template>
   <v-container>
     <div id="events" v-if="loaded">
-      <div id="event" class="mb-4" v-for="event in filteredEvents" :key="event.id">
+      <div
+        id="event"
+        class="mb-4"
+        v-for="event in filteredEvents"
+        :key="event.id"
+      >
         <Event
           :event="event"
           :now="now"
