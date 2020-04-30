@@ -4,7 +4,7 @@
       class="white--text align-end grey darken-4"
       :src="event.imageUrl"
       transition="fade-transition"
-      min-height="175px"
+      min-height="135px"
       contain
     >
       <v-card-title class="title">
