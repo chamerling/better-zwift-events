@@ -11,18 +11,7 @@
         </template>
 
         <v-list>
-          <!--
-          <v-list-item @click="switchDark">
-            <v-list-item-icon>
-              <v-icon v-if="isDark">mdi-brightness-4</v-icon>
-              <v-icon v-else>mdi-brightness-7</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              {{ isDark ? "Light Mode" : "Dark Mode" }}
-            </v-list-item-title>
-          </v-list-item>
-          -->
-          <v-list-item to="/about">
+          <v-list-item @click.stop="aboutDialog = true">
             <v-list-item-icon>
               <v-icon>mdi-help</v-icon>
             </v-list-item-icon>
@@ -41,14 +30,19 @@
       <PWAUpdate />
     </v-content>
     <ScrollToTopFab />
+    <AboutDialog :dialog.sync="aboutDialog" />
   </v-app>
 </template>
 
 <script>
 import PWAUpdate from "@/components/PWAUpdate.vue";
+import AboutDialog from "@/components/AboutDialog.vue";
 
 export default {
   name: "App",
+  data: () => ({
+    aboutDialog: false
+  }),
   computed: {
     isDark() {
       return this.$vuetify.theme.dark;
@@ -60,6 +54,7 @@ export default {
     }
   },
   components: {
+    AboutDialog,
     PWAUpdate,
     ScrollToTopFab: () => import("@/components/ScrollToTopFab.vue")
   }
