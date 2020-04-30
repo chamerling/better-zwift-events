@@ -38,33 +38,17 @@
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
-      <v-snackbar
-        v-model="showUpdate"
-        :timeout="updateTimeout"
-        color="primary"
-        bottom
-      >
-        New version available!
-        <v-spacer />
-        <v-btn dark text @click.native="refreshApp">
-          Refresh
-        </v-btn>
-      </v-snackbar>
+      <PWAUpdate />
     </v-content>
     <ScrollToTopFab />
   </v-app>
 </template>
 
 <script>
+import PWAUpdate from "@/components/PWAUpdate.vue";
+
 export default {
   name: "App",
-  data: () => ({
-    refreshing: false,
-    registration: null,
-    updateExists: false,
-    showUpdate: false,
-    updateTimeout: 0
-  }),
   computed: {
     isDark() {
       return this.$vuetify.theme.dark;
@@ -73,30 +57,11 @@ export default {
   methods: {
     switchDark() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-    },
-    showRefreshUI(e) {
-      console.log("Show refresh UI");
-      this.registration = e.detail;
-      this.showUpdate = true;
-    },
-    refreshApp() {
-      this.showUpdate = false;
-      if (!this.registration || !this.registration.waiting) {
-        return;
-      }
-      this.registration.waiting.postMessage("skipWaiting");
     }
   },
   components: {
+    PWAUpdate,
     ScrollToTopFab: () => import("@/components/ScrollToTopFab.vue")
-  },
-  created() {
-    document.addEventListener("swUpdated", this.showRefreshUI, { once: true });
-    navigator.serviceWorker.addEventListener("controllerchange", () => {
-      if (this.refreshing) return;
-      this.refreshing = true;
-      window.location.reload();
-    });
   }
 };
 </script>
