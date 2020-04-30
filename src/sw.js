@@ -3,11 +3,12 @@
 // This is the code piece that GenerateSW mode can't provide for us.
 // This code listens for the user's confirmation to update the app.
 self.addEventListener("message", event => {
+  console.log("Got event on service worker", event);
   if (!event.data) {
     return;
   }
 
-  if (event.data && event.data.type === "SKIP_WAITING") {
+  if (event.data && event.data === "skipWaiting") {
     self.skipWaiting();
   }
 });
