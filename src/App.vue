@@ -28,6 +28,7 @@
         <router-view />
       </transition>
       <PWAUpdate />
+      <BottomNavigation v-if="showNavigation" />
     </v-content>
     <ScrollToTopFab />
     <AboutDialog :dialog.sync="aboutDialog" />
@@ -41,7 +42,8 @@ import AboutDialog from "@/components/AboutDialog.vue";
 export default {
   name: "App",
   data: () => ({
-    aboutDialog: false
+    aboutDialog: false,
+    showNavigation: false
   }),
   computed: {
     isDark() {
@@ -56,7 +58,8 @@ export default {
   components: {
     AboutDialog,
     PWAUpdate,
-    ScrollToTopFab: () => import("@/components/ScrollToTopFab.vue")
+    ScrollToTopFab: () => import("@/components/ScrollToTopFab.vue"),
+    BottomNavigation: () => import("@/components/BottomNavigation.vue")
   }
 };
 </script>
