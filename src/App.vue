@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar app dense flat hide-on-scroll>
       <v-spacer></v-spacer>
 
       <v-menu offset-y>
