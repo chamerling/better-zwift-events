@@ -36,7 +36,6 @@ export default {
     }
   },
   created() {
-    console.log("CREATED");
     document.addEventListener("swUpdated", this.showRefreshUI, { once: true });
     navigator.serviceWorker.addEventListener("controllerchange", () => {
       if (this.refreshing) return;
