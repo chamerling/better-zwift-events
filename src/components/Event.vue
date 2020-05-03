@@ -10,7 +10,12 @@
       <v-card-title class="title">
         <Sport :type="event.sport" class="mr-2" />
         <v-spacer />
-        <div v-for="label in labels" :key="label" class="mr-1">
+        <div
+          v-for="label in labels"
+          :key="label"
+          class="mr-1"
+          @click="dialog = true"
+        >
           <Label :label="label"></Label>
         </div>
       </v-card-title>
@@ -35,15 +40,32 @@
         <v-divider></v-divider>
         <v-card-text class="text--primary description">
           <div v-html="event.description" v-linkified></div>
+          <div class="mt-4">
+            <EventSubGroups :groups="event.eventSubgroups" />
+          </div>
         </v-card-text>
       </div>
     </v-expand-transition>
+    <v-dialog v-model="dialog" persistent min-width="350" max-width="500">
+      <v-card>
+        <v-card-text>
+          <EventSubGroups :groups="event.eventSubgroups" />
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialog = false">
+            OK
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
 import moment from "moment";
 import Label from "@/components/Label.vue";
+import EventSubGroups from "@/components/EventSubGroups.vue";
 import Sport from "@/components/Sport.vue";
 
 export default {
@@ -61,7 +83,8 @@ export default {
   data: () => ({
     show: false,
     interval: null,
-    fromNow: null
+    fromNow: null,
+    dialog: false
   }),
   computed: {
     labels() {
@@ -75,7 +98,8 @@ export default {
   },
   components: {
     Label,
-    Sport
+    Sport,
+    EventSubGroups
   }
 };
 </script>
