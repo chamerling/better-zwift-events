@@ -43,7 +43,7 @@ export default {
   name: "App",
   data: () => ({
     aboutDialog: false,
-    showNavigation: false
+    showNavigation: true
   }),
   computed: {
     isDark() {

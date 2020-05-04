@@ -44,7 +44,6 @@ export default {
   name: "Home",
   data: () => ({
     interval: null,
-    loaded: false,
     now: null,
     page: 0,
     events: []
@@ -57,17 +56,26 @@ export default {
       this.now = new Date();
     }, 60000);
 
-    this.$store
-      .dispatch("fetchEvents")
-      .then(() => this.getFirstEvents())
-      .then(() => (this.loaded = true))
-      .catch(err => console.log(err));
+    !this.loaded &&
+      this.$store
+        .dispatch("fetchEvents")
+        .then(() => this.getFirstEvents())
+        .then(() => (this.loaded = true))
+        .catch(err => console.log(err));
   },
   destroyed() {
     clearInterval(this.interval);
   },
   computed: {
     ...mapGetters({ getEvents: "getEvents" }),
+    loaded: {
+      get() {
+        return this.$store.state.loaded;
+      },
+      set(value) {
+        this.$store.dispatch("setLoaded", value);
+      }
+    },
     filteredEvents() {
       // Do not display old events (15 minutes ago)
       return this.events.filter(event => {
