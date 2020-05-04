@@ -33,6 +33,11 @@
         <span>Details</span>
         <v-icon left>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
       </v-btn>
+      <v-spacer />
+      <v-btn icon @click="switchFav">
+        <v-icon v-if="favorited" color="primary">mdi-star</v-icon>
+        <v-icon v-else>mdi-star-outline</v-icon>
+      </v-btn>
     </v-card-actions>
 
     <v-expand-transition>
@@ -84,7 +89,8 @@ export default {
     show: false,
     interval: null,
     fromNow: null,
-    dialog: false
+    dialog: false,
+    favorited: false
   }),
   computed: {
     labels() {
@@ -94,6 +100,12 @@ export default {
     },
     from() {
       return moment(this.event.eventStart).from(this.now);
+    }
+  },
+  methods: {
+    switchFav() {
+      this.favorited = !this.favorited;
+      this.$store.dispatch("setAsFavorite", this.event.id);
     }
   },
   components: {
