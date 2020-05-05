@@ -13,7 +13,9 @@
         </div>
       </div>
       <div v-else id="none" class="d-flex justify-center align-center">
-        <span>No favorites</span>
+        <h3>
+          <span>No favorites</span>
+        </h3>
       </div>
     </div>
     <div v-else id="loader" class="d-flex justify-center align-center">
@@ -46,3 +48,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#loader,
+#none {
+  height: 80vh;
+}
+</style>
