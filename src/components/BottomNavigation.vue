@@ -15,7 +15,7 @@
 <script>
 export default {
   data: () => ({
-    bottomNav: 1
+    bottomNav: 0
   }),
   methods: {
     showHome() {
@@ -23,6 +23,25 @@ export default {
     },
     showFavorites() {
       this.$router.push({ name: "Favorites" });
+    }
+  },
+  created() {
+    if (this.$router.currentRoute.name === "Favorites") {
+      this.bottomNav = 1;
+    }
+    if (this.$router.currentRoute.name === "Home") {
+      this.bottomNav = 0;
+    }
+  },
+  watch: {
+    $route(to) {
+      if (to.name === "Favorites") {
+        this.bottomNav = 1;
+      }
+
+      if (to.name === "Home") {
+        this.bottomNav = 0;
+      }
     }
   }
 };
