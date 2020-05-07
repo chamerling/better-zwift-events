@@ -35,7 +35,7 @@
       </v-btn>
       <v-spacer />
       <v-btn icon @click="switchFav">
-        <v-icon v-if="favorited" color="primary">mdi-star</v-icon>
+        <v-icon v-if="fav" color="primary">mdi-star</v-icon>
         <v-icon v-else>mdi-star-outline</v-icon>
       </v-btn>
     </v-card-actions>
@@ -83,6 +83,10 @@ export default {
     now: {
       type: Date,
       required: true
+    },
+    fav: {
+      type: Boolean,
+      required: false
     }
   },
   data: () => ({
@@ -104,8 +108,7 @@ export default {
   },
   methods: {
     switchFav() {
-      this.favorited = !this.favorited;
-      this.$store.dispatch("setAsFavorite", this.event.id);
+      this.$emit("favorited", { id: this.event.id, value: !this.fav });
     }
   },
   components: {

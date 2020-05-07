@@ -70,6 +70,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch("initFavorites");
     this.$store
       .dispatch("fetchEvents")
       .then(() => (this.loaded = true))

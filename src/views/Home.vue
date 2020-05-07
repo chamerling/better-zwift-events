@@ -10,6 +10,8 @@
         <Event
           :event="event"
           :now="now"
+          :fav="isFav(event.id)"
+          @favorited="switchFav"
           data-aos="fade"
           data-aos-easing="ease-in"
           data-aos-once="true"
@@ -58,7 +60,7 @@ export default {
     clearInterval(this.interval);
   },
   computed: {
-    ...mapGetters({ getEvents: "getEvents" }),
+    ...mapGetters({ getEvents: "getEvents", isFav: "isFavorite" }),
     filteredEvents() {
       // Do not display old events (15 minutes ago)
       return this.events.filter(event => {
@@ -86,6 +88,9 @@ export default {
       } else {
         $state.complete();
       }
+    },
+    switchFav({ id, value }) {
+      this.$store.dispatch("setAsFavorite", { id, value });
     }
   },
   components: {
