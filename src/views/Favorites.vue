@@ -6,6 +6,8 @@
           <Event
             :event="event"
             :now="now"
+            :fav="isFav(event.id)"
+            @favorited="removeFromFav"
             data-aos="fade"
             data-aos-easing="ease-in"
             data-aos-once="true"
@@ -25,6 +27,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Event from "@/components/Event.vue";
 import MessageEllipsis from "@/components/MessageEllipsis.vue";
 
@@ -41,6 +44,18 @@ export default {
 
     this.loaded = true;
     this.events = favorites || [];
+  },
+  computed: {
+    ...mapGetters({ isFav: "isFavorite" })
+  },
+  methods: {
+    async removeFromFav({ id, value }) {
+      await this.$store.dispatch("setAsFavorite", { id, value });
+      const index = this.events.findIndex(event => event.id === id);
+      if (index > -1) {
+        this.events.splice(index, 1);
+      }
+    }
   },
   components: {
     Event,

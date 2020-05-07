@@ -22,6 +22,24 @@ const VueDexie = {
           .reverse()
           .toArray()
           .then(events => events.map(event => event.event));
+      },
+      getFavoritesId() {
+        return db.events.orderBy("id").uniqueKeys();
+      },
+      addToFavorites(event) {
+        return db.events.add({
+          id: event.id,
+          eventStart: event.eventStart,
+          name: event.name,
+          favorite: true,
+          event
+        });
+      },
+      removeFromFavorites(id) {
+        return db.events
+          .where("id")
+          .equals(id)
+          .delete();
       }
     };
 

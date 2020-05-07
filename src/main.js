@@ -22,7 +22,7 @@ Vue.use(VueDexie, { store });
 
 Vue.config.productionTip = false;
 
-new Vue({
+const app = new Vue({
   created() {
     AOS.init();
   },
@@ -31,3 +31,5 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount("#app");
+
+window.app = app;
