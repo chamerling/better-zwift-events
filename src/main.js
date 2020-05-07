@@ -13,14 +13,16 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import "./plugins/analytics";
+import VueDexie from "./plugins/dexie";
 
 Vue.use(VueAxios, axios);
 Vue.use(VueMoment);
 Vue.directive("linkified", linkify);
+Vue.use(VueDexie, { store });
 
 Vue.config.productionTip = false;
 
-new Vue({
+const app = new Vue({
   created() {
     AOS.init();
   },
@@ -29,3 +31,5 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount("#app");
+
+window.app = app;

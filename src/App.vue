@@ -24,11 +24,16 @@
     </v-app-bar>
 
     <v-content>
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
+      <div v-if="loaded">
+        <transition name="fade" mode="out-in">
+          <router-view />
+        </transition>
+      </div>
+      <div v-else id="loader" class="d-flex justify-center align-center">
+        <Loader />
+      </div>
       <PWAUpdate />
-      <BottomNavigation v-if="showNavigation" />
+      <BottomNavigation v-if="loaded" />
     </v-content>
     <ScrollToTopFab />
     <AboutDialog :dialog.sync="aboutDialog" />
@@ -38,16 +43,25 @@
 <script>
 import PWAUpdate from "@/components/PWAUpdate.vue";
 import AboutDialog from "@/components/AboutDialog.vue";
+import Loader from "@/components/Loader.vue";
 
 export default {
   name: "App",
   data: () => ({
     aboutDialog: false,
-    showNavigation: false
+    showNavigation: true
   }),
   computed: {
     isDark() {
       return this.$vuetify.theme.dark;
+    },
+    loaded: {
+      get() {
+        return this.$store.state.loaded;
+      },
+      set(value) {
+        this.$store.dispatch("setLoaded", value);
+      }
     }
   },
   methods: {
@@ -55,9 +69,17 @@ export default {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     }
   },
+  mounted() {
+    this.$store.dispatch("initFavorites");
+    this.$store
+      .dispatch("fetchEvents")
+      .then(() => (this.loaded = true))
+      .catch(err => console.log(err));
+  },
   components: {
     AboutDialog,
     PWAUpdate,
+    Loader,
     ScrollToTopFab: () => import("@/components/ScrollToTopFab.vue"),
     BottomNavigation: () => import("@/components/BottomNavigation.vue")
   }
@@ -65,6 +87,10 @@ export default {
 </script>
 
 <style>
+#loader {
+  height: 80vh;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition-duration: 0.3s;

@@ -7,7 +7,9 @@ Vue.use(Vuex);
 const PAGE_SIZE = 50;
 
 const state = {
-  events: {}
+  loaded: false,
+  events: {},
+  favorites: []
 };
 
 const actions = {
@@ -17,6 +19,30 @@ const actions = {
       .then(({ data }) => {
         commit("setEvents", data);
       });
+  },
+  setAsFavorite({ state, commit }, { id, value }) {
+    if (value) {
+      const event = state.events[id];
+
+      if (!event) {
+        return Promise.reject(new Error("Event not found"));
+      }
+      return Vue.$dexie.addToFavorites(event).then(() => {
+        commit("addFavorite", id);
+      });
+    } else {
+      return Vue.$dexie.removeFromFavorites(id).then(() => {
+        commit("removeFavorite", id);
+      });
+    }
+  },
+  setLoaded({ commit }, loaded) {
+    commit("setLoaded", loaded);
+  },
+  initFavorites({ commit }) {
+    Vue.$dexie.getFavoritesId().then(ids => {
+      commit("setFavorites", ids || []);
+    });
   }
 };
 
@@ -25,6 +51,18 @@ const mutations = {
     events.forEach(event => {
       Vue.set(state.events, event.id, event);
     });
+  },
+  addFavorite(state, id) {
+    state.favorites.push(id);
+  },
+  removeFavorite(state, id) {
+    state.favorites.splice(state.favorites.indexOf(id), 1);
+  },
+  setFavorites(state, ids) {
+    state.favorites = ids;
+  },
+  setLoaded(state, value) {
+    state.loaded = value;
   }
 };
 
@@ -34,6 +72,12 @@ const getters = {
       page * PAGE_SIZE,
       (page + 1) * PAGE_SIZE
     );
+  },
+  getFavorites: ({ favorites }) => {
+    return favorites || [];
+  },
+  isFavorite: ({ favorites }) => id => {
+    return favorites.indexOf(id) > -1;
   }
 };
 
