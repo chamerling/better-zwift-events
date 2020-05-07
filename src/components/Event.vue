@@ -38,6 +38,9 @@
         <v-icon v-if="fav" color="primary">mdi-star</v-icon>
         <v-icon v-else>mdi-star-outline</v-icon>
       </v-btn>
+      <v-btn v-if="shareable" icon @click="share">
+        <v-icon>mdi-share</v-icon>
+      </v-btn>
     </v-card-actions>
 
     <v-expand-transition>
@@ -94,7 +97,8 @@ export default {
     interval: null,
     fromNow: null,
     dialog: false,
-    favorited: false
+    favorited: false,
+    shareable: !!navigator.share
   }),
   computed: {
     labels() {
@@ -109,6 +113,16 @@ export default {
   methods: {
     switchFav() {
       this.$emit("favorited", { id: this.event.id, value: !this.fav });
+    },
+    share() {
+      navigator
+        .share({
+          title: this.event.name,
+          text: "Check out this Zwift event",
+          url: `https://zwift.com/events/view/${this.event.id}`
+        })
+        .then(() => console.log("Shared"))
+        .catch(error => console.log("Error sharing", error));
     }
   },
   components: {
