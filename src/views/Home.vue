@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div id="events" v-if="loaded">
+    <div id="events">
       <div
         id="event"
         class="mb-4"
@@ -10,6 +10,8 @@
         <Event
           :event="event"
           :now="now"
+          :fav="isFav(event.id)"
+          @favorited="switchFav"
           data-aos="fade"
           data-aos-easing="ease-in"
           data-aos-once="true"
@@ -26,9 +28,6 @@
       <!-- dirty hack to have aos and infinite list working -->
       <div id="loaded"></div>
     </div>
-    <div v-else id="loader" class="d-flex justify-center align-center">
-      <Loader />
-    </div>
   </v-container>
 </template>
 
@@ -37,14 +36,12 @@ import moment from "moment";
 import { mapGetters } from "vuex";
 import InfiniteLoading from "vue-infinite-loading";
 import Event from "@/components/Event.vue";
-import Loader from "@/components/Loader.vue";
 import MessageEllipsis from "@/components/MessageEllipsis.vue";
 
 export default {
   name: "Home",
   data: () => ({
     interval: null,
-    loaded: false,
     now: null,
     page: 0,
     events: []
@@ -57,17 +54,13 @@ export default {
       this.now = new Date();
     }, 60000);
 
-    this.$store
-      .dispatch("fetchEvents")
-      .then(() => this.getFirstEvents())
-      .then(() => (this.loaded = true))
-      .catch(err => console.log(err));
+    this.getFirstEvents();
   },
   destroyed() {
     clearInterval(this.interval);
   },
   computed: {
-    ...mapGetters({ getEvents: "getEvents" }),
+    ...mapGetters({ getEvents: "getEvents", isFav: "isFavorite" }),
     filteredEvents() {
       // Do not display old events (15 minutes ago)
       return this.events.filter(event => {
@@ -95,19 +88,15 @@ export default {
       } else {
         $state.complete();
       }
+    },
+    switchFav({ id, value }) {
+      this.$store.dispatch("setAsFavorite", { id, value });
     }
   },
   components: {
     Event,
-    Loader,
     InfiniteLoading,
     MessageEllipsis
   }
 };
 </script>
-
-<style scoped>
-#loader {
-  height: 80vh;
-}
-</style>

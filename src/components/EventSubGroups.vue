@@ -36,7 +36,7 @@ const watts = {
   C: "2.5 - 3.1",
   D: "1 - 2.4",
   E: "1 - 5"
-}
+};
 
 export default {
   name: "EventSubGroups",
