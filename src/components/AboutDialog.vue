@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="290">
     <v-card>
-      <v-card-title class="headline">Ride on!</v-card-title>
+      <v-card-title class="headline">Better Zwift Events</v-card-title>
       <v-card-text>
         <p>
           The goal of this application is to better find and use Zwift events
