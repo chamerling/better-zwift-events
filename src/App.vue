@@ -41,15 +41,20 @@
 </template>
 
 <script>
+import moment from "moment";
 import PWAUpdate from "@/components/PWAUpdate.vue";
 import AboutDialog from "@/components/AboutDialog.vue";
 import Loader from "@/components/Loader.vue";
+
+const PERIOD = 5 * 60;
 
 export default {
   name: "App",
   data: () => ({
     aboutDialog: false,
-    showNavigation: true
+    showNavigation: true,
+    interval: null,
+    lastFetch: null
   }),
   computed: {
     isDark() {
@@ -67,14 +72,42 @@ export default {
   methods: {
     switchDark() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+    fetchEvents() {
+      this.lastFetch = new Date();
+      return this.$store.dispatch("fetchEvents");
+    },
+    handleVisibilityChange() {
+      if (!document.hidden) {
+        // check if last fetch is old then fetch again if needed
+        const diff = moment
+          .duration(moment(new Date()).diff(moment(this.lastFetch)))
+          .seconds();
+
+        if (diff > PERIOD) {
+          this.fetchEvents();
+        }
+      }
     }
   },
   mounted() {
     this.$store.dispatch("initFavorites");
-    this.$store
-      .dispatch("fetchEvents")
+    this.fetchEvents()
       .then(() => (this.loaded = true))
       .catch(err => console.log(err));
+
+    this.interval = setInterval(() => {
+      this.fetchEvents().catch(err => console.log(err));
+    }, 1000 * PERIOD);
+
+    document.addEventListener(
+      "visibilitychange",
+      this.handleVisibilityChange,
+      false
+    );
+  },
+  destroyed() {
+    clearInterval(this.interval);
   },
   components: {
     AboutDialog,
