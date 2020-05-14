@@ -25,7 +25,12 @@
     </v-card-title>
 
     <v-card-subtitle class="pb-0">
-      {{ from }}
+      <v-tooltip right>
+        <template v-slot:activator="{ on }">
+          <span v-on="on">{{ startDate }}</span>
+        </template>
+        <span>{{ from }}</span>
+      </v-tooltip>
     </v-card-subtitle>
 
     <v-card-actions>
@@ -108,6 +113,9 @@ export default {
     },
     from() {
       return moment(this.event.eventStart).from(this.now);
+    },
+    startDate() {
+      return moment(this.event.eventStart).calendar();
     }
   },
   methods: {
