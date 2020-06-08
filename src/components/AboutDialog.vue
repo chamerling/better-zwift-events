@@ -18,6 +18,14 @@
           >.
         </p>
         <p>
+          Source code is available at
+          <a
+            href="https://github.com/chamerling/better-zwift-events"
+            target="_blank"
+            >https://github.com/chamerling/better-zwift-events</a
+          >. Feel free to contribute.
+        </p>
+        <p>
           Enjoy your ride! ❤️
         </p>
       </v-card-text>
